@@ -1,74 +1,124 @@
-# git-template
+# 深度研究アーカイブ (Deep Research Archives)
 
-Git template with GitHub Actions workflows
+研究結果とアーカイブの集約サイト
 
 ## 概要
 
-このリポジトリは、新しいプロジェクトを始める際のテンプレートとして使用できます。包括的なGitHub Actionsワークフローとプロジェクト設定が含まれています。
+このサイトは、Astroフレームワークを使用して構築された研究結果の集約サイトです。これまでに作成した調査結果ページのアーカイブ一覧を表示し、個別の調査結果の詳細コンテンツを掲載します。
 
-## 含まれている機能
+## 主な機能
 
-### GitHub Actions ワークフロー
+- **ホームページ**: 研究結果アーカイブの一覧表示
+- **研究結果ページ**: 個別の調査結果詳細（Markdown形式）
+- **自動デプロイ**: GitHub Actions による GitHub Pages への自動公開
+- **レスポンシブデザイン**: Tailwind CSS による美しいUI
 
-#### 1. CI/CD Pipeline (`sample.yaml`)
+## 技術スタック
 
-- **リント・フォーマットチェック**: ESLint、Prettierによるコード品質チェック
-- **テスト実行**: 複数のNode.jsバージョンでのテスト実行
-- **セキュリティスキャン**: Trivyによる脆弱性スキャン
-- **Dockerイメージビルド**: GitHub Container Registryへのプッシュ
-- **デプロイメント**: ステージング・本番環境への自動デプロイ
-- **リリース作成**: 自動的なリリースノート生成
+- **フレームワーク**: [Astro](https://astro.build/)
+- **スタイリング**: [Tailwind CSS](https://tailwindcss.com/)
+- **ホスティング**: GitHub Pages
+- **CI/CD**: GitHub Actions
 
-#### 2. 依存関係更新 (`dependency-update.yaml`)
+## プロジェクト構造
 
-- 週次での依存関係自動更新
-- 自動PR作成による更新管理
+```
+/
+├── public/
+│   └── favicon.svg
+├── src/
+│   ├── components/
+│   │   └── Header.astro
+│   ├── layouts/
+│   │   └── Layout.astro
+│   └── pages/
+│       ├── index.astro
+│       └── research/
+│           ├── research-result-1.md
+│           └── research-result-2.md
+├── .github/
+│   └── workflows/
+│       └── deploy.yml
+├── astro.config.mjs
+├── tailwind.config.mjs
+└── package.json
+```
 
-#### 3. コード品質チェック (`code-quality.yaml`)
+## ローカル開発
 
-- SonarQubeによる静的コード解析
-- TypeScript型チェック
-- Lighthouse CI によるパフォーマンステスト
-- Bundle sizeチェック
+### 前提条件
 
-### プロジェクト管理
+- Node.js 18以上
+- npm
 
-#### イシューテンプレート
+### セットアップ
 
-- **Bug Report**: バグ報告用のテンプレート
-- **Feature Request**: 新機能提案用のテンプレート
+```bash
+# 依存関係のインストール
+npm install
 
-#### PR テンプレート
+# 開発サーバーの起動
+npm run dev
 
-- 標準化されたプルリクエストテンプレート
-- チェックリスト付きレビュープロセス
+# ビルド
+npm run build
 
-#### Dependabot設定
+# プレビュー
+npm run preview
+```
 
-- npm、GitHub Actions、Docker依存関係の自動更新
-- 日本時間での週次更新スケジュール
+## 新しい研究結果の追加方法
 
-## 使用方法
+### 1. ブランチの作成
 
-1. このテンプレートを使用して新しいリポジトリを作成
-2. プロジェクトの要件に応じてワークフローをカスタマイズ
-3. 必要なシークレットを GitHub Settings で設定:
-   - `SONAR_TOKEN`: SonarQubeトークン
-   - `CC_TEST_REPORTER_ID`: CodeClimate テストレポーターID
-   - `LHCI_GITHUB_APP_TOKEN`: Lighthouse CI トークン
+```bash
+git checkout -b add-new-research-page
+```
 
-## カスタマイズ
+### 2. Markdownファイルの作成
 
-各ワークフローファイルは、プロジェクトの要件に応じてカスタマイズできます：
+`src/pages/research/` ディレクトリに新しいMarkdownファイルを作成します。
 
-- Node.js バージョンの変更
-- テストコマンドの調整
-- デプロイ先の設定
-- 通知設定の追加
+```markdown
+---
+layout: ../../layouts/Layout.astro
+title: "研究タイトル"
+description: "研究の概要説明"
+date: "2024-XX-XX"
+tags: ["タグ1", "タグ2", "タグ3"]
+---
 
-## 注意事項
+# 研究タイトル
 
-- 一部のワークフローは外部サービス（SonarQube、CodeClimate等）の設定が必要です
-- プロジェクトの性質に応じて不要なワークフローは削除してください
-- シークレットの設定を忘れずに行ってください
-- 使用したい機能のyamlファイルについて、各自`.deny`を取り除いた上で使用してください
+## 概要
+
+研究内容をここに記述...
+```
+
+### 3. コミット・プッシュ
+
+```bash
+git add .
+git commit -m "Add new research: [研究タイトル]"
+git push origin add-new-research-page
+```
+
+### 4. プルリクエストの作成とマージ
+
+GitHub上でプルリクエストを作成し、レビュー後にmainブランチへマージします。
+
+### 5. 自動デプロイ
+
+mainブランチへのマージをトリガーとして、GitHub Actionsが自動的に実行され、サイトが更新されます。
+
+## サイトURL
+
+本番サイト: https://cyokozai.github.io/deep-research-archives/
+
+## ライセンス
+
+MIT License
+
+## 貢献
+
+プルリクエストやイシューの作成を歓迎します。
