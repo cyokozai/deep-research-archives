@@ -9,7 +9,7 @@ RUN npm ci
 
 # Copy source code and build
 COPY . .
-RUN npx astro check && npx astro build
+RUN npm run build
 
 # Production stage using nginx
 FROM nginx:alpine AS runner
